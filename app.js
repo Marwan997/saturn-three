@@ -15,21 +15,46 @@ import StarFragment from './shaders/StarFragment.glsl'
 
 const scene = new THREE.Scene()
 
-const camera = new THREE.PerspectiveCamera(
-    75, 
-    window.innerWidth / window.innerHeight, 
-    0.1, 
-    1000
-    );
-camera.position.z = 15;
-camera.position.y = 0;
+const sizes = {
+    width: window.innerWidth,
+    height: window.innerHeight
+}
+
 
 const renderer = new THREE.WebGLRenderer({
     antialias: true
 });
-renderer.setPixelRatio(window.devicePixelRatio)
-renderer.setSize( window.innerWidth, window.innerHeight )
-const controls = new OrbitControls( camera, renderer.domElement );
+window.addEventListener('resize', () =>
+{
+    // Update sizes
+    sizes.width = window.innerWidth
+    sizes.height = window.innerHeight
+
+    // Update camera
+    camera.aspect = sizes.width / sizes.height
+    camera.updateProjectionMatrix()
+
+    // Update renderer
+    renderer.setSize(sizes.width, sizes.height)
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+})
+
+
+const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 1000)
+camera.position.z = 15;
+camera.position.y = 0;
+scene.add(camera)
+
+const controls = new OrbitControls(camera, renderer.domElement)
+controls.enableDamping = true
+
+
+
+renderer.outputColorSpace = THREE.LinearSRGBColorSpace
+renderer.outputColorSpace = THREE.LinearSRGBColorSpace
+renderer.setSize(sizes.width, sizes.height)
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+
 document.body.appendChild(renderer.domElement);
 
 /** Ring */
