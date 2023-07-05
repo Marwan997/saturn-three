@@ -52,17 +52,7 @@ const ring = new THREE.Mesh(
         }
     })
 )
-const plane = new THREE.Mesh(
-    new THREE.PlaneGeometry(1, 1, 100, 100),
-    new THREE.ShaderMaterial({
-        vertexShader: ringVertexShader, 
-        fragmentShader: ringFragmentShader,
-        side: THREE.DoubleSide,
-        // wireframe: true
 
-    })
-)
-// ring.scale.z = 0.5
 ring.scale.set(2,2,0.01)
 ring.rotation.x = 1.4
 ring.rotation.y = 0.1
