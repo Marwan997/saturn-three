@@ -21,8 +21,8 @@ const camera = new THREE.PerspectiveCamera(
     0.1, 
     1000
     );
-camera.position.z = 11;
-camera.position.y = 6;
+camera.position.z = 15;
+camera.position.y = 0;
 
 const renderer = new THREE.WebGLRenderer({
     antialias: true
@@ -46,8 +46,8 @@ const ring = new THREE.Mesh(
     })
 )
 ring.scale.set(2,2,0.01)
-ring.rotation.x = 1.4
-ring.rotation.y = 0.1
+ring.rotation.x = 4.9
+ring.rotation.y =  0.05
 scene.add(ring)
 
 /** Saturn */
@@ -64,8 +64,8 @@ const saturn = new THREE.Mesh(
 
     })
 )
-saturn.rotation.x = 6.1
-saturn.rotation.z = 0.1
+saturn.rotation.x =  0.2
+saturn.rotation.z = 0
 scene.add(saturn)
 /** Saturn Glow */
 const saturnGlow = new THREE.Mesh(
