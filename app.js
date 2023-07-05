@@ -21,8 +21,8 @@ const camera = new THREE.PerspectiveCamera(
     );
 
 
-camera.position.z = -14;
-
+camera.position.z = 11;
+camera.position.y = 6;
 const renderer = new THREE.WebGLRenderer({
     antialias: true
 });
@@ -39,24 +39,31 @@ document.body.appendChild(renderer.domElement);
 
 const planet = new THREE.Group();
 
-
-
 const ring = new THREE.Mesh(
-    new THREE.TorusGeometry(1.5, 0.2, 1000, 1000),
+    new THREE.TorusGeometry(4, 0.5, 256, 256),
     new THREE.ShaderMaterial({
         vertexShader: ringVertexShader, 
         fragmentShader: ringFragmentShader,
         side: THREE.DoubleSide,
-        wireframe: false,
+        // wireframe: true,
+        transparent: true,
         uniforms: {
-            uTime: {value: 0},
-        },
-        blending: THREE.AdditiveBlending,
-        side: THREE.BackSide
+            uTime: {value: 0.0}
+        }
     })
 )
-ring.scale.z = 0.5
-ring.scale.set(5,5,0.5)
+const plane = new THREE.Mesh(
+    new THREE.PlaneGeometry(1, 1, 100, 100),
+    new THREE.ShaderMaterial({
+        vertexShader: ringVertexShader, 
+        fragmentShader: ringFragmentShader,
+        side: THREE.DoubleSide,
+        // wireframe: true
+
+    })
+)
+// ring.scale.z = 0.5
+ring.scale.set(2,2,0.01)
 ring.rotation.x = 1.4
 ring.rotation.y = 0.1
 
@@ -86,7 +93,8 @@ const saturnGlow = new THREE.Mesh(
         vertexShader: SaturnGlowVertexShader,
         fragmentShader: SaturnGlowFragmentShader,
         blending: THREE.AdditiveBlending,
-        side: THREE.BackSide
+        side: THREE.BackSide,
+        transparent: true,
 
     })
 )
@@ -125,10 +133,12 @@ function animate (){
     ring.rotation.z -= 0.0000001
     saturn.rotation.y -= 0.001
 
-    saturn.position.y = Math.sin(elapsedTime) * 0.2
-    saturnGlow.position.y = Math.sin(elapsedTime) * 0.2
-    ring.position.y = Math.sin(elapsedTime) * 0.2
+    saturn.position.y = Math.sin(elapsedTime) * 0.3
+    saturnGlow.position.y = Math.sin(elapsedTime) * 0.3
+    ring.position.y = Math.sin(elapsedTime) * 0.3
 
+    ring.material.uniforms.uTime.value = elapsedTime;
+    camera.lookAt(saturn.position);
     controls.update();
 
     renderer.render(scene, camera);
