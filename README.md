@@ -1,7 +1,5 @@
 # ThreeSaturn
 
-1) Clone
-2) run npm i
-3) npx vite
+demo: https://saturn-three.vercel.app/
 
-
+Saturn texture takes a bit to load, be patient please
