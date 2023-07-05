@@ -10,6 +10,8 @@ import SaturnFragmentShader from './shaders/SaturnFragment.glsl'
 import SaturnGlowVertexShader from './shaders/SaturnGlowVertex.glsl'
 import SaturnGlowFragmentShader from './shaders/SaturnGlowFragment.glsl'
 
+import StarVertex from './shaders/StarVertex.glsl'
+import StarFragment from './shaders/StarFragment.glsl'
 
 const scene = new THREE.Scene()
 
@@ -19,46 +21,36 @@ const camera = new THREE.PerspectiveCamera(
     0.1, 
     1000
     );
-
-
 camera.position.z = 11;
 camera.position.y = 6;
+
 const renderer = new THREE.WebGLRenderer({
     antialias: true
 });
-
-
 renderer.setPixelRatio(window.devicePixelRatio)
-
-renderer.setSize( window.innerWidth,
-        window.innerHeight )
-
+renderer.setSize( window.innerWidth, window.innerHeight )
 const controls = new OrbitControls( camera, renderer.domElement );
-
 document.body.appendChild(renderer.domElement);
 
-const planet = new THREE.Group();
-
+/** Ring */
 const ring = new THREE.Mesh(
     new THREE.TorusGeometry(4, 0.5, 256, 256),
     new THREE.ShaderMaterial({
         vertexShader: ringVertexShader, 
         fragmentShader: ringFragmentShader,
         side: THREE.DoubleSide,
-        // wireframe: true,
         transparent: true,
         uniforms: {
             uTime: {value: 0.0}
         }
     })
 )
-
 ring.scale.set(2,2,0.01)
 ring.rotation.x = 1.4
 ring.rotation.y = 0.1
-
 scene.add(ring)
 
+/** Saturn */
 const saturn = new THREE.Mesh(
     new THREE.SphereGeometry(5, 50,50),
     new THREE.ShaderMaterial({
@@ -74,9 +66,8 @@ const saturn = new THREE.Mesh(
 )
 saturn.rotation.x = 6.1
 saturn.rotation.z = 0.1
-
 scene.add(saturn)
-
+/** Saturn Glow */
 const saturnGlow = new THREE.Mesh(
     new THREE.SphereGeometry(5, 50,50),
     new THREE.ShaderMaterial({
@@ -88,34 +79,36 @@ const saturnGlow = new THREE.Mesh(
 
     })
 )
-
 saturnGlow.scale.set(1.1,1.1,1.1);
-
 scene.add(saturnGlow)
 
-const star = new THREE.BufferGeometry();
-const starMat = new THREE.PointsMaterial({color: 0xFFFFFF})
 
-const starPos = [];
-
-
-const stars = new THREE.Points(
-    star,
-    starMat
-);
-scene.add(stars); 
+/** Stars */
+const starGeometry = new THREE.PlaneGeometry(5,5);
+const starMaterial = new THREE.ShaderMaterial({
+    vertexShader: StarVertex,
+    fragmentShader: StarFragment,
+    side: THREE.DoubleSide,
+})
+const stars = new THREE.Group();
 
 for(let i = 0 ; i < 1000 ; i++){
-     const x = (Math.random() - 0.5) * 2000;
+    const star = new THREE.Mesh(
+        starGeometry,
+        starMaterial
+    )
+    const x = (Math.random() - 0.5) * 2000;
     const y = (Math.random() - 0.5) * 2000;
     const z =  (Math.random() - 0.5) * 2000;
-    starPos.push(x,y,z);
+    star.position.x = x;
+    star.position.y = y;
+    star.position.z = z;
+    stars.add(star);
 }
+scene.add(stars);
 
-star.setAttribute('position', new THREE.Float32BufferAttribute(starPos, 3))
-
+/** Animation */
 const clock = new THREE.Clock();
-
 function animate (){
 
     const elapsedTime = clock.getElapsedTime();
@@ -127,11 +120,10 @@ function animate (){
     saturnGlow.position.y = Math.sin(elapsedTime) * 0.3
     ring.position.y = Math.sin(elapsedTime) * 0.3
 
-    ring.material.uniforms.uTime.value = elapsedTime;
-    camera.lookAt(saturn.position);
+    ring.material.uniforms.uTime.value = Math.abs(Math.sin(elapsedTime)) * 1;
+
     controls.update();
 
     renderer.render(scene, camera);
 }
-
 animate();
