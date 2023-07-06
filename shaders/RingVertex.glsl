@@ -1,4 +1,3 @@
-
 varying vec2 vUv;
 varying vec3 vNormal;
 varying vec3 vPosition;
@@ -16,7 +15,7 @@ void main () {
     float strength = stripesY * stripesX;
 
 
-    vPosition.z += 1.5 - (sin(vPosition.y * strength + uTime * 0.4));
+    vPosition.z +=  (vPosition.y * strength + uTime * 0.4);
 
     
     gl_Position = projectionMatrix * modelViewMatrix * vec4(vPosition, 1.0); 
