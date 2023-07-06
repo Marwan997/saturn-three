@@ -50,7 +50,7 @@ float cnoise(vec2 P)
 
 void main() {
 
-    float stripesY =  mod(vUv.y* 56.0, 0.5);
+   float stripesY =  mod(vUv.y* 56.0, 0.5);
     float stripesX = 1.0 - sin(vUv.x * 0.01);
 
     float strength = stripesY * stripesX;
