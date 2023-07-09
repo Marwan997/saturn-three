@@ -9,13 +9,13 @@ void main () {
     vNormal = normal;
     vPosition = position;
 
-    float stripesY = smoothstep(0.1, 0.5, mod(vUv.y * 70.0, 0.5));
-    float stripesX = sin(vUv.x * 1.0);
+    float stripesY = smoothstep(0.01, 0.5, mod(vUv.y * 5.0, 1.0));
+    float stripesX = (vUv.x);
 
     float strength = stripesY * stripesX;
 
 
-    vPosition.z +=  (vPosition.y * strength + uTime * 0.4);
+    vPosition.z +=  sin(vPosition.y * strength + uTime * 0.8) * 10.0;
 
     
     gl_Position = projectionMatrix * modelViewMatrix * vec4(vPosition, 1.0); 
