@@ -138,12 +138,13 @@ function animate (){
 
     const elapsedTime = clock.getElapsedTime();
     requestAnimationFrame(animate);
-    ring.rotation.z -= 0.0000001
     saturn.rotation.y -= 0.001
-
     saturn.position.y = Math.sin(elapsedTime) * 0.3
+    
     saturnGlow.position.y = Math.sin(elapsedTime) * 0.3
+    
     ring.position.y = Math.sin(elapsedTime) * 0.3
+    ring.rotation.z -= 0.008;
 
     ring.material.uniforms.uTime.value = elapsedTime;
 
