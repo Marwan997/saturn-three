@@ -61,8 +61,6 @@ void main() {
     vec3 color = mix(bcolor, vec3(0.25), strength);
 
     float fresnel1 =  dot(vNormal, vPosition) * 0.3;
-    float fresnel2 =  1.0 - dot(vNormal, vPosition) * 0.5;
-    float fresnel = (fresnel1 * fresnel2) * 0.2;
     color /= fresnel1;
 
     vec3 glowColor = vec3(0.9, 0.5, 0.5);
