@@ -9,7 +9,7 @@ void main () {
     vNormal = normal;
     vPosition = position;
 
-    float stripesY = smoothstep(0.01, 0.5, mod(vUv.y * 5.0, 1.0));
+    float stripesY = smoothstep(0.01, 0.5, mod(vUv.y * 20.0, 1.0));
     float stripesX = (vUv.x);
 
     float strength = stripesY * stripesX;
