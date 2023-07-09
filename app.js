@@ -145,7 +145,7 @@ function animate (){
     saturnGlow.position.y = Math.sin(elapsedTime) * 0.3
     ring.position.y = Math.sin(elapsedTime) * 0.3
 
-    ring.material.uniforms.uTime.value = Math.abs(Math.sin(elapsedTime)) * 1;
+    ring.material.uniforms.uTime.value = elapsedTime;
 
     controls.update();
 
