@@ -48,9 +48,6 @@ scene.add(camera)
 const controls = new OrbitControls(camera, renderer.domElement)
 controls.enableDamping = true
 
-
-
-renderer.outputColorSpace = THREE.LinearSRGBColorSpace
 renderer.outputColorSpace = THREE.LinearSRGBColorSpace
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
@@ -92,6 +89,7 @@ const saturn = new THREE.Mesh(
 saturn.rotation.x =  0.2
 saturn.rotation.z = 0
 scene.add(saturn)
+
 /** Saturn Glow */
 const saturnGlow = new THREE.Mesh(
     new THREE.SphereGeometry(5, 50,50),
