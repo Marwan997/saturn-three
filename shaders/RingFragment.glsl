@@ -50,7 +50,7 @@ float cnoise(vec2 P)
 
 void main() {
 
-   float stripesY =  mod(vUv.y* 56.0, 0.5);
+    float stripesY =  mod(vUv.y* 56.0, 0.5);
     float stripesX = 1.0 - sin(vUv.x * 0.01);
 
     float strength = stripesY * stripesX;
@@ -60,15 +60,15 @@ void main() {
     vec3 bcolor = vec3(0.98, 0.89, 0.75);
     vec3 color = mix(bcolor, vec3(0.25), strength);
 
-    float fresnel1 =  1.0 - dot(vNormal, vPosition) * 0.3;
+    float fresnel1 =  dot(vNormal, vPosition) * 0.3;
     float fresnel2 =  1.0 - dot(vNormal, vPosition) * 0.5;
     float fresnel = (fresnel1 * fresnel2) * 0.2;
-    color *= fresnel;
+    color /= fresnel1;
 
     vec3 glowColor = vec3(0.9, 0.5, 0.5);
-    float glowIntensity = 0.01;
-    color += glowColor * pow(fresnel, 2.5) * glowIntensity;
-    color += bcolor * vec3(0.98,0.89,0.75);
+    float glowIntensity = 0.001;
+    color += glowColor * pow(fresnel1, 1.5) * glowIntensity;
+    color *= bcolor * vec3(0.98,0.89,0.75);
     
     gl_FragColor = vec4(color, 0.5);
 }
